@@ -1,18 +1,18 @@
 import { notFound } from 'next/navigation'
-import { Comment as CommentType, getPost, getPostComments } from '@/lib/posts'
-import { Post } from '@/components/posts'
+import { API_URL, getPost, getPostComments, Post as PostType } from '@/lib/posts'
+import Post from '@/components/post'
+import Comment from '@/components/post-comment'
 
-const Comment = ({ comment }: { comment: CommentType }) => (
-	<li className='comment'>
-		<p>
-			<i>{comment.email}</i>
-		</p>
-		<b>{comment.name}</b>
-		<p>{comment.body}</p>
-	</li>
-)
+// Return a list of `params` to populate the [id] dynamic segment
+export async function generateStaticParams() {
+	const posts = await fetch(`${API_URL}/posts`).then((res) => res.json())
 
-export default async function NewsDetailPage({ params }: { params: Promise<{ id: string }> }) {
+	return posts.map((post: PostType) => ({
+		id: post.id.toString(),
+	}))
+}
+
+export default async function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 	const post = await getPost(id)
 
