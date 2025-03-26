@@ -1,7 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+	basePath: '/finera-nextjs',
+	output: 'export',
+	reactStrictMode: true,
+}
 
-export default nextConfig;
+export default nextConfig

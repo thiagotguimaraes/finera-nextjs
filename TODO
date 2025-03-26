@@ -1,0 +1,32 @@
+FeedPage
+    List posts
+        ✅ list posts
+        ✅ Display post owner (userId)
+            📌 Display user name
+        📌 Display total comments in the post
+PostPage
+    ✅ Display post data
+    ✅ Display post onwer (userEmail)
+        📌 Display user name
+    ✅ List post comments
+    Comments CRUD 
+        📌 create
+        📌 delete (server auth)
+        📌 edit (server auth)
+        📌 form action (revalidate)
+        📌 sanitize input for xss attacks
+        📌 draft comment session
+UsersPage
+    📌 List users
+Auth
+    📌 NextAuth
+Redux store
+    📌 Logged user data
+    📌 posts
+    📌 comments
+    📌 users
+📌 Responsive CSS
+📌 Suspense loading components/pages
+📌 Beautifull CSS
+
+
