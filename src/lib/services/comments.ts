@@ -35,6 +35,7 @@ export const api = createApi({
 		}),
 		getPostComments: build.query<Comment[], string>({
 			query: (id) => `posts/${id}/comments`,
+			providesTags: (result) => (result ? [...result.map(({ id }) => ({ type: 'Comments' as const, id }))] : []),
 		}),
 		updateComment: build.mutation<void, Pick<Comment, 'id'> & Partial<Comment>>({
 			query: ({ id, ...patch }) => ({
