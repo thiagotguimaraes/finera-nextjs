@@ -34,3 +34,5 @@ To run the development server:
 npm install
 npm run dev
 ```
+
+Ps: The deploy on Github Pages only accepts static files, so the deploy there was not possible due to the nextAuth and some other features used to generate the static pages on the server side such as the `generateStaticParams` function.
