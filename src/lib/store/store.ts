@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authSliceReducer from './slice-auth'
+import { api } from '../services/comments'
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
-			auth: authSliceReducer,
+			[api.reducerPath]: api.reducer,
 		},
+		// adding the api middleware enables caching, invalidation, polling and other features of `rtk-query`
+		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 	})
 }
 

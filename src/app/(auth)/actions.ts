@@ -1,8 +1,8 @@
 'use server'
 
 import { z } from 'zod'
-import { createUser, getUser } from '@/lib/users'
-import { signIn, signOut } from '@/auth'
+import { createUser } from '@/lib/users'
+import { signIn } from '@/auth'
 
 const authFormSchema = z.object({
 	email: z.string(), //.email(),

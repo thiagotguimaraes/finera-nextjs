@@ -2,10 +2,9 @@ import { Comment as CommentType } from '@/lib/posts'
 
 const Comment = ({ comment }: { comment: CommentType }) => (
 	<li className='comment'>
-		<p>
+		<b>
 			<i>{comment.email}</i>
-		</p>
-		<b>{comment.name}</b>
+		</b>
 		<p>{comment.body}</p>
 	</li>
 )
