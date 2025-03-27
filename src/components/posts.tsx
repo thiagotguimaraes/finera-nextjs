@@ -9,14 +9,14 @@ export default function Posts({ posts }: { posts: PostType[] }) {
 	}
 
 	return (
-		<ul className='posts'>
-			{posts.map((post: PostType) => (
-				<Link key={post.id} href={`/posts/${post.id}`}>
-					<li>
+		<div className='flex justify-center'>
+			<div className='w-full max-w-2xl p-6'>
+				{posts.map((post: PostType) => (
+					<Link key={post.id} href={`/posts/${post.id}`}>
 						<Post post={post} />
-					</li>
-				</Link>
-			))}
-		</ul>
+					</Link>
+				))}
+			</div>
+		</div>
 	)
 }

@@ -53,7 +53,7 @@ export function CommentEditor({
 				 */
 				const patchCollection = dispatch(
 					api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
-						draftComments.push(newComment)
+						draftComments.unshift(newComment)
 					})
 				)
 			} else {
@@ -111,13 +111,13 @@ export function CommentEditor({
 							data-testid='message-editor-send-button'
 							variant='default'
 							className='h-fit py-2 px-3'
-							disabled={isSubmitting}
+							disabled={isSubmitting || !draftContent}
 							onClick={async () => {
 								setIsSubmitting(true)
 								handleSubmit({ name: '', body: draftContent })
 							}}
 						>
-							{isSubmitting ? 'Sending...' : 'Send'}
+							{isSubmitting ? 'Commenting...' : 'Comment'}
 						</Button>
 					</div>
 				</div>

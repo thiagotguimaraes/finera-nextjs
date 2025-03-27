@@ -5,9 +5,13 @@ import NavLink from './nav-link'
 import SignoutButton from './signout-button'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
 
 export default function NavHeader() {
 	const [open, setOpen] = useState(false)
+	const session = useSession()
+	const status = session?.status
+	const authenticated = status === 'authenticated'
 
 	const handleClose = () => {
 		setOpen(false)
@@ -26,10 +30,13 @@ export default function NavHeader() {
 					Comments
 				</NavLink>
 				<div className='absolute flex justify-between right-5'>
-					<NavLink handleClose={() => {}} href='/login' className='hover:text-blue-600 font-medium'>
-						Login
-					</NavLink>
-					<SignoutButton className='hover:text-blue-600 font-medium ml-5' />
+					{!authenticated ? (
+						<NavLink handleClose={() => {}} href='/login' className='hover:text-blue-600 font-medium'>
+							Login
+						</NavLink>
+					) : (
+						<SignoutButton className='hover:text-blue-600 font-medium ml-5' />
+					)}
 				</div>
 			</nav>
 
@@ -64,14 +71,17 @@ export default function NavHeader() {
 							Users
 						</NavLink>
 						<div className='absolute flex flex-col space-y-4 bottom-5'>
-							<NavLink
-								handleClose={handleClose}
-								href='/login'
-								className='text-lg font-medium hover:text-blue-600'
-							>
-								Login
-							</NavLink>
-							<SignoutButton className='text-lg font-medium hover:text-blue-600' />
+							{!authenticated ? (
+								<NavLink
+									handleClose={handleClose}
+									href='/login'
+									className='text-lg font-medium hover:text-blue-600'
+								>
+									Login
+								</NavLink>
+							) : (
+								<SignoutButton className='text-lg font-medium hover:text-blue-600' />
+							)}
 						</div>
 					</nav>
 				</SheetContent>

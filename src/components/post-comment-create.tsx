@@ -27,16 +27,18 @@ const CreateComment = ({ post }: { post: Post }) => {
 	}
 
 	return (
-		<>
-			<div className='mt-10 mb-2'>
-				<Button onClick={showInput} disabled={isEditing}>
-					Create comment
-				</Button>
-			</div>
+		<div className='mt-5'>
+			{!isEditing ? (
+				<div>
+					<Button onClick={showInput} disabled={isEditing}>
+						Add comment
+					</Button>
+				</div>
+			) : null}
 			{canComment ? (
 				<CommentEditor post={post} isEditing={isEditing} setIsEditing={setIsEditing}></CommentEditor>
 			) : null}
-		</>
+		</div>
 	)
 }
 

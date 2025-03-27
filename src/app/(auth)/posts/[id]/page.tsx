@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { API_URL, getPost, getPostComments, Post as PostType } from '@/lib/posts'
+import { API_URL, getPost, Post as PostType } from '@/lib/posts'
 import Post from '@/components/post'
 import CreateComment from '@/components/post-comment-create'
 import CommentsList from '@/components/post-comment-list'
@@ -24,9 +24,13 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
 	// const comments = await getPostComments(id)
 
 	return (
-		<Post post={post}>
-			<CommentsList post={post} />
-			<CreateComment post={post} />
-		</Post>
+		<div className='flex justify-center'>
+			<div className='w-full max-w-2xl p-6'>
+				<Post post={post}>
+					<CreateComment post={post} />
+					<CommentsList post={post} />
+				</Post>
+			</div>
+		</div>
 	)
 }
