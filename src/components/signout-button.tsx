@@ -1,11 +1,14 @@
 'use client'
 
 import { signOut } from 'next-auth/react'
+import NavLink from './nav-link'
 
-export default function SignoutButton() {
+export default function SignoutButton({ className }: { className: string }) {
 	return (
-		<button type='button' className='w-full cursor-pointer' onClick={() => signOut()}>
-			Sign out
-		</button>
+		<div className={`cursor-pointer`} onClick={() => signOut()}>
+			<NavLink href='/' className={className}>
+				Logout
+			</NavLink>
+		</div>
 	)
 }

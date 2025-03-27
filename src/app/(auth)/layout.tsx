@@ -3,6 +3,7 @@ import { SessionProvider } from 'next-auth/react'
 import { Toaster } from 'sonner'
 import StoreProvider from '@/components/store-provider'
 import './globals.css'
+import NavHeader from '@/components/nav-header'
 
 export const metadata: Metadata = {
 	title: 'Finera Nextjs Posts Task',
@@ -16,7 +17,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<body>
+			<NavHeader />
+			<body className='flex flex-col min-h-screen'>
 				<StoreProvider>
 					<SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}>
 						<Toaster position='top-right' />

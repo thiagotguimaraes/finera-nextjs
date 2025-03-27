@@ -1,23 +1,81 @@
+'use client'
+
+import { Menu } from 'lucide-react'
 import NavLink from './nav-link'
 import SignoutButton from './signout-button'
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import { useState } from 'react'
 
 export default function NavHeader() {
+	const [open, setOpen] = useState(false)
+
+	const handleClose = () => {
+		setOpen(false)
+	}
+
 	return (
-		<header id='main-header'>
-			<nav>
-				<ul>
-					<li>
-						<NavLink href='/posts'>Posts</NavLink>
-					</li>
-					<li>
-						<NavLink href='/commnets'>Comments</NavLink>
-					</li>
-					<li>
-						<NavLink href='/users'>Users</NavLink>
-					</li>
-				</ul>
+		<header className='bg-white shadow-md py-4 px-6 flex justify-between items-center'>
+			<nav className='hidden md:flex space-x-6'>
+				<NavLink handleClose={() => {}} href='/posts' className='hover:text-blue-600 font-medium'>
+					Feed
+				</NavLink>
+				<NavLink handleClose={() => {}} href='/users' className='hover:text-blue-600 font-medium'>
+					Users
+				</NavLink>
+				<NavLink handleClose={() => {}} href='/comments' className='hover:text-blue-600 font-medium'>
+					Comments
+				</NavLink>
+				<div className='absolute flex justify-between right-5'>
+					<NavLink handleClose={() => {}} href='/login' className='hover:text-blue-600 font-medium'>
+						Login
+					</NavLink>
+					<SignoutButton className='hover:text-blue-600 font-medium ml-5' />
+				</div>
 			</nav>
-			<SignoutButton />
+
+			{/* Mobile Sidebar Trigger */}
+			<Sheet open={open} onOpenChange={setOpen}>
+				<SheetTrigger asChild>
+					<button className='md:hidden p-2'>
+						<Menu size={24} />
+					</button>
+				</SheetTrigger>
+				<SheetContent side='left' className='w-64 pl-5'>
+					<nav className='flex flex-col space-y-4 mt-4'>
+						<NavLink
+							handleClose={handleClose}
+							href='/posts'
+							className='text-lg font-medium hover:text-blue-600'
+						>
+							Feed
+						</NavLink>
+						<NavLink
+							handleClose={handleClose}
+							href='/comments'
+							className='text-lg font-medium hover:text-blue-600'
+						>
+							Comments
+						</NavLink>
+						<NavLink
+							handleClose={handleClose}
+							href='/users'
+							className='text-lg font-medium hover:text-blue-600'
+						>
+							Users
+						</NavLink>
+						<div className='absolute flex flex-col space-y-4 bottom-5'>
+							<NavLink
+								handleClose={handleClose}
+								href='/login'
+								className='text-lg font-medium hover:text-blue-600'
+							>
+								Login
+							</NavLink>
+							<SignoutButton className='text-lg font-medium hover:text-blue-600' />
+						</div>
+					</nav>
+				</SheetContent>
+			</Sheet>
 		</header>
 	)
 }
