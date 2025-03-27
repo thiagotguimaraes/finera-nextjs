@@ -1,20 +1,22 @@
 'use client'
 
 import { Button } from './ui/button'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Textarea } from './ui/textarea'
-import { Post } from '@/lib/posts'
-import { api, useAddCommentMutation } from '@/lib/services/comments'
+import { Comment, Post } from '@/lib/posts'
+import { api, useAddCommentMutation, useUpdateCommentMutation } from '@/lib/services/comments'
 import { useSession } from 'next-auth/react'
 import { toast } from '@/components/toast'
 import { useAppDispatch } from '@/lib/store/hooks'
 
 export function CommentEditor({
 	post,
+	comment,
 	isEditing,
 	setIsEditing,
 }: {
 	post: Post
+	comment?: Comment
 	isEditing: boolean
 	setIsEditing: Function
 }) {
@@ -26,7 +28,15 @@ export function CommentEditor({
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null)
 	const [addComment, { isLoading: isAdding }] = useAddCommentMutation()
+	const [updateComment, { isLoading: isUpdating }] = useUpdateCommentMutation()
+
 	const dispatch = useAppDispatch()
+
+	useEffect(() => {
+		if (!!comment) {
+			setDraftContent(comment?.body)
+		}
+	}, [])
 
 	const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setDraftContent(event.target.value)
@@ -34,31 +44,41 @@ export function CommentEditor({
 
 	const handleSubmit = async ({ name, body }: { name: string; body: string }) => {
 		try {
-			const newComment = await addComment({ name, email: user?.email, body, postId: post.id }).unwrap()
+			if (!comment) {
+				const newComment = await addComment({ name, email: user?.email, body, postId: post.id }).unwrap()
 
-			/**
-			 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
-			 * when that endpoint is used with no argument post.id.
-			 */
-			const patchCollection = dispatch(
-				api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
-					draftComments.push(newComment)
-				})
-			)
+				/**
+				 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
+				 * when that endpoint is used with no argument post.id.
+				 */
+				const patchCollection = dispatch(
+					api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
+						draftComments.push(newComment)
+					})
+				)
+			} else {
+				const updatedComment = await updateComment({ ...comment, body }).unwrap()
+				console.log('updatedComment', updatedComment)
 
-			console.log('patchCollection', patchCollection)
+				/**
+				 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
+				 * when that endpoint is used with no argument post.id.
+				 */
+				const patchCollection = dispatch(
+					api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
+						const index = draftComments.findIndex((item) => item.id === updatedComment.id)
+						if (index !== -1) {
+							draftComments[index] = { ...draftComments[index], ...updatedComment } // Preserve existing properties if needed
+						}
+					})
+				)
+			}
 		} catch (error) {
-			toast({
-				type: 'error',
-				description: 'Error creating comment',
-			})
+			toast({ type: 'error', description: !comment ? 'Error creating comment' : 'Error updating comment' })
 			setIsSubmitting(false)
-			console.log(error)
+			console.error(error)
 		} finally {
-			toast({
-				type: 'success',
-				description: 'Comment created',
-			})
+			toast({ type: 'success', description: 'Comment created' })
 			setIsEditing(false)
 			setDraftContent('')
 			setIsSubmitting(false)

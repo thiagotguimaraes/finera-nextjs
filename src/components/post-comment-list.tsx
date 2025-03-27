@@ -19,7 +19,7 @@ const CommentsList = ({ post }: { post: Post }) => {
 					<p>Comments:</p>
 					<ul className='comments'>
 						{comments.map((c) => (
-							<Comment key={c.id} comment={c} />
+							<Comment key={c.id} comment={c} post={post} />
 						))}
 					</ul>
 				</>

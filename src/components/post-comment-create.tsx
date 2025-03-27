@@ -10,14 +10,10 @@ import { CommentEditor } from './post-comment-input'
 const CreateComment = ({ post }: { post: Post }) => {
 	const session = useSession()
 	const status = session?.status
-	const data = session?.data
-	const user = data?.user
 
 	const router = useRouter()
 	const [canComment, setCanComment] = useState<boolean>(false)
 	const [isEditing, setIsEditing] = useState<boolean>(false)
-
-	// console.log('session', session, user, status)
 
 	const authenticated = status === 'authenticated'
 

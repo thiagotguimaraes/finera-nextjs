@@ -27,7 +27,6 @@ export const api = createApi({
 				method: 'POST',
 				body,
 			}),
-			invalidatesTags: [{ type: 'Comments', id: 'LIST' }],
 		}),
 		getComment: build.query<Comment, string>({
 			query: (id) => `comments/${id}`,
@@ -35,7 +34,10 @@ export const api = createApi({
 		}),
 		getPostComments: build.query<Comment[], string>({
 			query: (id) => `posts/${id}/comments`,
-			providesTags: (result) => (result ? [...result.map(({ id }) => ({ type: 'Comments' as const, id }))] : []),
+			providesTags: (result) =>
+				result
+					? [...result.map(({ id }) => ({ type: 'Comments' as const, id })), { type: 'Comments', id: 'LIST' }]
+					: [{ type: 'Comments', id: 'LIST' }],
 		}),
 		updateComment: build.mutation<void, Pick<Comment, 'id'> & Partial<Comment>>({
 			query: ({ id, ...patch }) => ({
@@ -43,16 +45,14 @@ export const api = createApi({
 				method: 'PUT',
 				body: patch,
 			}),
-			invalidatesTags: (result, error, { id }) => [{ type: 'Comments', id }],
 		}),
-		deleteComment: build.mutation<{ success: boolean; id: number }, number>({
+		deleteComment: build.mutation<{ success: boolean; id: string }, string>({
 			query(id) {
 				return {
 					url: `comments/${id}`,
 					method: 'DELETE',
 				}
 			},
-			invalidatesTags: (result, error, id) => [{ type: 'Comments', id }],
 		}),
 	}),
 })
