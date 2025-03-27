@@ -11,6 +11,7 @@ export interface Comment {
 type CommentsResponse = Comment[]
 
 export const api = createApi({
+	reducerPath: 'comments',
 	baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }),
 	tagTypes: ['Comments'],
 	endpoints: (build) => ({

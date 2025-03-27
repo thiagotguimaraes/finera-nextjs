@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { api } from '../services/comments'
+import { usersApi } from '../services/users'
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
 			[api.reducerPath]: api.reducer,
+			[usersApi.reducerPath]: usersApi.reducer,
 		},
 		// adding the api middleware enables caching, invalidation, polling and other features of `rtk-query`
-		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
+		middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware).concat(usersApi.middleware),
 	})
 }
 

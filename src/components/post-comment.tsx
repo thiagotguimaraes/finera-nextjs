@@ -6,13 +6,38 @@ import CommentEditIcon from './post-comment-edit-icon'
 import { CommentEditor } from './post-comment-input'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { api, useAddCommentMutation, useUpdateCommentMutation } from '@/lib/services/comments'
+import { useAppDispatch } from '@/lib/store/hooks'
 
-const Comment = ({ comment, post }: { comment: CommentType; post: Post }) => {
+const Comment = ({ comment, post }: { comment: CommentType; post?: Post }) => {
 	const session = useSession()
 	const status = session?.status
+	const data = session?.data
+	const user = data?.user
 	const authenticated = status === 'authenticated'
 
 	const [isEditing, setIsEditing] = useState<boolean>(false)
+
+	const dispatch = useAppDispatch()
+	const [updateComment, { isLoading: isUpdating }] = useUpdateCommentMutation()
+
+	const handleSubmit = async ({ body }) => {
+		const updatedComment = await updateComment({ ...comment, body }).unwrap()
+		console.log('updatedComment', updatedComment)
+
+		/**
+		 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
+		 * when that endpoint is used with no argument post.id.
+		 */
+		const patchCollection = dispatch(
+			api.util.updateQueryData('getPostComments', post?.id ?? undefined, (draftComments) => {
+				const index = draftComments.findIndex((item) => item.id === updatedComment.id)
+				if (index !== -1) {
+					draftComments[index] = { ...draftComments[index], ...updatedComment } // Preserve existing properties if needed
+				}
+			})
+		)
+	}
 
 	return (
 		<li className='grid grid-cols-12 mt-3 mb-7'>
@@ -26,6 +51,7 @@ const Comment = ({ comment, post }: { comment: CommentType; post: Post }) => {
 						comment={comment}
 						isEditing={isEditing}
 						setIsEditing={setIsEditing}
+						onSubmit={handleSubmit}
 					></CommentEditor>
 				) : (
 					<p>{comment.body}</p>

@@ -14,11 +14,13 @@ export function CommentEditor({
 	comment,
 	isEditing,
 	setIsEditing,
+	onSubmit,
 }: {
 	post: Post
 	comment?: Comment
 	isEditing: boolean
 	setIsEditing: Function
+	onSubmit: Function
 }) {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 	const [draftContent, setDraftContent] = useState<string>('')
@@ -27,10 +29,10 @@ export function CommentEditor({
 	const user = data?.user
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null)
-	const [addComment, { isLoading: isAdding }] = useAddCommentMutation()
-	const [updateComment, { isLoading: isUpdating }] = useUpdateCommentMutation()
+	// const [addComment, { isLoading: isAdding }] = useAddCommentMutation()
+	// const [updateComment, { isLoading: isUpdating }] = useUpdateCommentMutation()
 
-	const dispatch = useAppDispatch()
+	// const dispatch = useAppDispatch()
 
 	useEffect(() => {
 		if (!!comment) {
@@ -44,35 +46,36 @@ export function CommentEditor({
 
 	const handleSubmit = async ({ name, body }: { name: string; body: string }) => {
 		try {
-			if (!comment) {
-				const newComment = await addComment({ name, email: user?.email, body, postId: post.id }).unwrap()
+			await onSubmit({ name, body, postId: post?.id })
+			// if (!comment) {
+			// 	const newComment = await addComment({ name, email: user?.email, body, postId: post.id }).unwrap()
 
-				/**
-				 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
-				 * when that endpoint is used with no argument post.id.
-				 */
-				const patchCollection = dispatch(
-					api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
-						draftComments.unshift(newComment)
-					})
-				)
-			} else {
-				const updatedComment = await updateComment({ ...comment, body }).unwrap()
-				console.log('updatedComment', updatedComment)
+			// 	/**
+			// 	 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
+			// 	 * when that endpoint is used with no argument post.id.
+			// 	 */
+			// 	const patchCollection = dispatch(
+			// 		api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
+			// 			draftComments.unshift(newComment)
+			// 		})
+			// 	)
+			// } else {
+			// 	const updatedComment = await updateComment({ ...comment, body }).unwrap()
+			// 	console.log('updatedComment', updatedComment)
 
-				/**
-				 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
-				 * when that endpoint is used with no argument post.id.
-				 */
-				const patchCollection = dispatch(
-					api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
-						const index = draftComments.findIndex((item) => item.id === updatedComment.id)
-						if (index !== -1) {
-							draftComments[index] = { ...draftComments[index], ...updatedComment } // Preserve existing properties if needed
-						}
-					})
-				)
-			}
+			// 	/**
+			// 	 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
+			// 	 * when that endpoint is used with no argument post.id.
+			// 	 */
+			// 	const patchCollection = dispatch(
+			// 		api.util.updateQueryData('getPostComments', post.id, (draftComments) => {
+			// 			const index = draftComments.findIndex((item) => item.id === updatedComment.id)
+			// 			if (index !== -1) {
+			// 				draftComments[index] = { ...draftComments[index], ...updatedComment } // Preserve existing properties if needed
+			// 			}
+			// 		})
+			// 	)
+			// }
 		} catch (error) {
 			toast({ type: 'error', description: !comment ? 'Error creating comment' : 'Error updating comment' })
 			setIsSubmitting(false)

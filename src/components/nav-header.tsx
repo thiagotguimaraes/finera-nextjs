@@ -26,9 +26,6 @@ export default function NavHeader() {
 				<NavLink handleClose={() => {}} href='/users' className='hover:text-blue-600 font-medium'>
 					Users
 				</NavLink>
-				<NavLink handleClose={() => {}} href='/comments' className='hover:text-blue-600 font-medium'>
-					Comments
-				</NavLink>
 				<div className='absolute flex justify-between right-5'>
 					{!authenticated ? (
 						<NavLink handleClose={() => {}} href='/login' className='hover:text-blue-600 font-medium'>
@@ -55,13 +52,6 @@ export default function NavHeader() {
 							className='text-lg font-medium hover:text-blue-600'
 						>
 							Feed
-						</NavLink>
-						<NavLink
-							handleClose={handleClose}
-							href='/comments'
-							className='text-lg font-medium hover:text-blue-600'
-						>
-							Comments
 						</NavLink>
 						<NavLink
 							handleClose={handleClose}

@@ -8,9 +8,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 const CommentsList = ({ post }: { post: Post }) => {
 	const { data: comments = [], isLoading } = useGetPostCommentsQuery(post.id)
 
-	// console.log('comments', comments, 'isLoading', isLoading, 'post', post)
-	// console.log('comments', comments)
-
 	return (
 		<>
 			{isLoading ? (

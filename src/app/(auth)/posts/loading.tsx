@@ -6,7 +6,7 @@ export default function PostsLoading() {
 		<div className='flex justify-center'>
 			<div className='w-full max-w-2xl p-6'>
 				{[1, 2, 3].map((i) => (
-					<Card key={i} className='hover:shadow-lg transition mb-5'>
+					<Card key={i} className='transition mb-5'>
 						<CardContent className='p-4'>
 							<div className='flex items-center space-x-3 mb-3'>
 								<div className='flex items-center space-x-4'>

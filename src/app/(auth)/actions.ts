@@ -47,6 +47,7 @@ export const register = async (_: RegisterActionState, formData: FormData): Prom
 			password: formData.get('password'),
 		})
 
+		// Fake auth
 		const user = null // await getUser(validatedData.email)
 
 		if (user) {
