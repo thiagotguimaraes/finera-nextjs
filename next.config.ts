@@ -1,8 +1,8 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-	basePath: '/finera-nextjs',
-	output: 'export',
+	// basePath: process.env.BASE_PATH,
+	// output: 'export',
 }
 
 export default nextConfig

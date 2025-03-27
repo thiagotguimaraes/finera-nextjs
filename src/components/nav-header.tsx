@@ -1,4 +1,5 @@
 import NavLink from './nav-link'
+import SignoutButton from './signout-button'
 
 export default function NavHeader() {
 	return (
@@ -16,6 +17,7 @@ export default function NavHeader() {
 					</li>
 				</ul>
 			</nav>
+			<SignoutButton />
 		</header>
 	)
 }

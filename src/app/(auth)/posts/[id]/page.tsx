@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { API_URL, getPost, getPostComments, Post as PostType } from '@/lib/posts'
 import Post from '@/components/post'
 import Comment from '@/components/post-comment'
+import CreateComment from '@/components/post-comment-create'
 
 // Return a list of `params` to populate the [id] dynamic segment
 export async function generateStaticParams() {
@@ -30,6 +31,7 @@ export default async function PostDetailPage({ params }: { params: Promise<{ id:
 					<Comment key={comment.id} comment={comment} />
 				))}
 			</ul>
+			<CreateComment post={post} />
 		</Post>
 	)
 }
