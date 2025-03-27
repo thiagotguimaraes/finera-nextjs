@@ -9,9 +9,9 @@ import { useSession } from 'next-auth/react'
 
 export default function NavHeader() {
 	const [open, setOpen] = useState(false)
-	const session = useSession()
-	const status = session?.status
-	const authenticated = status === 'authenticated'
+	// const session = useSession()
+	// const status = session?.status
+	const authenticated = true //status === 'authenticated'
 
 	const handleClose = () => {
 		setOpen(false)

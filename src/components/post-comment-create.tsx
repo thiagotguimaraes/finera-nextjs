@@ -10,16 +10,16 @@ import { api, useAddCommentMutation } from '@/lib/services/comments'
 import { useAppDispatch } from '@/lib/store/hooks'
 
 const CreateComment = ({ post }: { post: Post }) => {
-	const session = useSession()
-	const status = session?.status
-	const data = session?.data
-	const user = data?.user
+	// const session = useSession()
+	// const status = session?.status
+	// const data = session?.data
+	// const user = data?.user
 
 	const router = useRouter()
 	const [canComment, setCanComment] = useState<boolean>(false)
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 
-	const authenticated = status === 'authenticated'
+	const authenticated = true // status === 'authenticated'
 
 	const dispatch = useAppDispatch()
 	const [addComment, { isLoading: isAdding }] = useAddCommentMutation()
@@ -34,7 +34,7 @@ const CreateComment = ({ post }: { post: Post }) => {
 	}
 
 	const handleSubmit = async ({ name, body }) => {
-		const newComment = await addComment({ name, email: user?.email, body, postId: post.id }).unwrap()
+		const newComment = await addComment({ name, email: 'no-auth@gmail.com', body, postId: post.id }).unwrap()
 
 		/**
 		 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,

@@ -10,11 +10,11 @@ import { api, useAddCommentMutation, useUpdateCommentMutation } from '@/lib/serv
 import { useAppDispatch } from '@/lib/store/hooks'
 
 const Comment = ({ comment, post }: { comment: CommentType; post?: Post }) => {
-	const session = useSession()
-	const status = session?.status
-	const data = session?.data
-	const user = data?.user
-	const authenticated = status === 'authenticated'
+	// const session = useSession()
+	// const status = session?.status
+	// const data = session?.data
+	// const user = data?.user
+	const authenticated = true //status === 'authenticated'
 
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 

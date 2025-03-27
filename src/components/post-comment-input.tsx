@@ -24,9 +24,9 @@ export function CommentEditor({
 }) {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
 	const [draftContent, setDraftContent] = useState<string>('')
-	const session = useSession()
-	const data = session?.data
-	const user = data?.user
+	// const session = useSession()
+	// const data = session?.data
+	// const user = data?.user
 
 	const textareaRef = useRef<HTMLTextAreaElement>(null)
 	// const [addComment, { isLoading: isAdding }] = useAddCommentMutation()

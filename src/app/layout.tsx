@@ -19,15 +19,15 @@ export default function RootLayout({
 
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}>
-				<NavHeader />
-				<body className='flex flex-col min-h-screen'>
-					<StoreProvider>
-						<Toaster position='top-right' />
-						{children}
-					</StoreProvider>
-				</body>
-			</SessionProvider>
+			{/* <SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}> */}
+			<NavHeader />
+			<body className='flex flex-col min-h-screen'>
+				<StoreProvider>
+					<Toaster position='top-right' />
+					{children}
+				</StoreProvider>
+			</body>
+			{/* </SessionProvider> */}
 		</html>
 	)
 }
