@@ -14,7 +14,7 @@ PostPage
         ✅ edit (server auth)
         📌 sanitize input for xss attacks
 UsersPage
-    📌 List users
+    ✅ List users
 Auth
     ✅ NextAuth
 Redux store

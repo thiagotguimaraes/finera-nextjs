@@ -15,6 +15,8 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
+	console.log('process.env.BASE_PATH', process.env.BASE_PATH)
+
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}>

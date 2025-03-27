@@ -14,7 +14,7 @@ export const authConfig = {
 		Credentials({
 			credentials: { email: {}, password: {} },
 			authorize: async ({ email, password }: any) => {
-				return user1
+				return { email, password }
 			},
 		}),
 	],
