@@ -7,26 +7,18 @@ FeedPage
 PostPage
     ✅ Display post data
     ✅ Display post onwer (userEmail)
-        📌 Display user name
     ✅ List post comments
     Comments CRUD 
-        📌 create
-        📌 delete (server auth)
-        📌 edit (server auth)
-        📌 form action (revalidate)
+        ✅ create
+        ✅ delete (server auth)
+        ✅ edit (server auth)
         📌 sanitize input for xss attacks
-        📌 draft comment session
 UsersPage
     📌 List users
 Auth
-    📌 NextAuth
+    ✅ NextAuth
 Redux store
-    📌 Logged user data
-    📌 posts
-    📌 comments
-    📌 users
+    ✅ comments
 📌 Responsive CSS
 📌 Suspense loading components/pages
 📌 Beautifull CSS
-
-

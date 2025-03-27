@@ -19,7 +19,7 @@ export default function RootLayout({
 			<body>
 				<StoreProvider>
 					<SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}>
-						<Toaster position='top-right' invert={true} />
+						<Toaster position='top-right' />
 						{children}
 					</SessionProvider>
 				</StoreProvider>
