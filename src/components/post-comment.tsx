@@ -7,14 +7,17 @@ import { CommentEditor } from './post-comment-input'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { api, useAddCommentMutation, useUpdateCommentMutation } from '@/lib/services/comments'
-import { useAppDispatch } from '@/lib/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
+import { LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
 
 const Comment = ({ comment, post }: { comment: CommentType; post?: Post }) => {
 	// const session = useSession()
 	// const status = session?.status
 	// const data = session?.data
 	// const user = data?.user
-	const authenticated = true //status === 'authenticated'
+	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
+
+	const authenticated = status === 'success' //status === 'authenticated'
 
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 

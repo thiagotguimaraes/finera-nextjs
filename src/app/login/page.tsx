@@ -8,8 +8,10 @@ import { toast } from '@/components/toast'
 import { AuthForm } from '@/components/auth-form'
 import { SubmitButton } from '@/components/submit-button'
 
-import { login, type LoginActionState } from '../(auth)/actions'
+// import { login, type LoginActionState } from '../auth/actions'
 import { useSession } from 'next-auth/react'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
+import { login, LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
 
 export default function Page() {
 	const router = useRouter()
@@ -18,33 +20,35 @@ export default function Page() {
 	const [email, setEmail] = useState('')
 	const [isSuccessful, setIsSuccessful] = useState(false)
 
-	const [state, formAction] = useActionState<LoginActionState, FormData>(login, {
-		status: 'idle',
-	})
+	// const [state, formAction] = useActionState<LoginActionState, FormData>(login, {
+	// 	status: 'idle',
+	// })
+
+	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		console.log(state)
-
-		if (state.status === 'failed') {
+		if (status === 'failed') {
 			toast({
 				type: 'error',
 				description: 'Invalid credentials!',
 			})
-		} else if (state.status === 'invalid_data') {
+		} else if (status === 'invalid_data') {
 			toast({
 				type: 'error',
 				description: 'Failed validating your submission!',
 			})
-		} else if (state.status === 'success') {
+		} else if (status === 'success') {
 			setIsSuccessful(true)
 			// session.update()
 			router.push('/')
 		}
-	}, [state.status])
+	}, [status, router])
 
 	const handleSubmit = (formData: FormData) => {
 		setEmail(formData.get('email') as string)
-		formAction(formData)
+		// formAction(formData)
+		dispatch(login())
 	}
 
 	return (

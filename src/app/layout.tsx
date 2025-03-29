@@ -15,19 +15,19 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode
 }>) {
-	console.log('process.env.BASE_PATH', process.env.BASE_PATH)
+	// console.log('process.env.BASE_PATH', process.env.BASE_PATH)
 
 	return (
-		<html lang='en' suppressHydrationWarning>
-			{/* <SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}> */}
-			<NavHeader />
-			<body className='flex flex-col min-h-screen'>
-				<StoreProvider>
+		<StoreProvider>
+			<html lang='en' suppressHydrationWarning>
+				{/* <SessionProvider basePath={`${process.env.BASE_PATH}/api/auth`}> */}
+				<NavHeader />
+				<body className='flex flex-col min-h-screen'>
 					<Toaster position='top-right' />
 					{children}
-				</StoreProvider>
-			</body>
-			{/* </SessionProvider> */}
-		</html>
+				</body>
+				{/* </SessionProvider> */}
+			</html>
+		</StoreProvider>
 	)
 }

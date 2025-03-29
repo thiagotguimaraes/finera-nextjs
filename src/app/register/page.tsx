@@ -7,7 +7,7 @@ import { useActionState, useEffect, useState } from 'react'
 import { AuthForm } from '@/components/auth-form'
 import { SubmitButton } from '@/components/submit-button'
 
-import { register, type RegisterActionState } from '../(auth)/actions'
+// import { register, type RegisterActionState } from '../auth/actions'
 import { toast } from '@/components/toast'
 import { useSession } from 'next-auth/react'
 
@@ -18,7 +18,11 @@ export default function Page() {
 	const [email, setEmail] = useState('')
 	const [isSuccessful, setIsSuccessful] = useState(false)
 
-	const [state, formAction] = useActionState<RegisterActionState, FormData>(register, {
+	// const [state, formAction] = useActionState<RegisterActionState, FormData>(register, {
+	// 	status: 'idle',
+	// })
+
+	const [state, setLoginState] = useState<RegisterActionState>({
 		status: 'idle',
 	})
 
@@ -46,7 +50,10 @@ export default function Page() {
 
 	const handleSubmit = (formData: FormData) => {
 		setEmail(formData.get('email') as string)
-		formAction(formData)
+		// formAction(formData)
+		setLoginState({
+			status: 'success',
+		})
 	}
 
 	return (

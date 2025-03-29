@@ -7,7 +7,8 @@ import { Post } from '@/lib/posts'
 import { useState } from 'react'
 import { CommentEditor } from './post-comment-input'
 import { api, useAddCommentMutation } from '@/lib/services/comments'
-import { useAppDispatch } from '@/lib/store/hooks'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
+import { LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
 
 const CreateComment = ({ post }: { post: Post }) => {
 	// const session = useSession()
@@ -18,8 +19,9 @@ const CreateComment = ({ post }: { post: Post }) => {
 	const router = useRouter()
 	const [canComment, setCanComment] = useState<boolean>(false)
 	const [isEditing, setIsEditing] = useState<boolean>(false)
+	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
 
-	const authenticated = true // status === 'authenticated'
+	const authenticated = status === 'success' // status === 'authenticated'
 
 	const dispatch = useAppDispatch()
 	const [addComment, { isLoading: isAdding }] = useAddCommentMutation()

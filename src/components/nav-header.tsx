@@ -6,12 +6,16 @@ import SignoutButton from './signout-button'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { useAppSelector } from '@/lib/store/hooks'
+import { LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
 
 export default function NavHeader() {
 	const [open, setOpen] = useState(false)
 	// const session = useSession()
 	// const status = session?.status
-	const authenticated = true //status === 'authenticated'
+	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
+
+	const authenticated = status === 'success' //status === 'authenticated'
 
 	const handleClose = () => {
 		setOpen(false)
