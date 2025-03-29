@@ -5,6 +5,8 @@ import { TrashIcon } from './icons'
 import { Button } from './ui/button'
 import { api, useDeleteCommentMutation } from '@/lib/services/comments'
 import { useAppDispatch } from '@/lib/store/hooks'
+import { Suspense } from 'react'
+import { Spinner } from './ui/spinner'
 
 const CommentDeleteIcon = ({ post, comment }: { comment: CommentType; post: Post }) => {
 	const dispatch = useAppDispatch()
@@ -12,7 +14,6 @@ const CommentDeleteIcon = ({ post, comment }: { comment: CommentType; post: Post
 
 	const handleDelete = async () => {
 		const delComment = await deleteComment(comment.id).unwrap()
-		console.log('delComment', delComment)
 
 		/**
 		 * This will update the cache data for the query corresponding to the `getPostComments` endpoint,
@@ -26,9 +27,17 @@ const CommentDeleteIcon = ({ post, comment }: { comment: CommentType; post: Post
 	}
 
 	return (
-		<Button variant='ghost' onClick={handleDelete}>
-			<TrashIcon />
-		</Button>
+		<>
+			{true ? (
+				<Button variant='ghost' disabled>
+					<Spinner size='sm' className='bg-black dark:bg-white' />
+				</Button>
+			) : (
+				<Button variant='ghost' onClick={handleDelete}>
+					<TrashIcon />
+				</Button>
+			)}
+		</>
 	)
 }
 

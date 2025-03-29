@@ -11,7 +11,7 @@ import { SubmitButton } from '@/components/submit-button'
 // import { login, type LoginActionState } from '../auth/actions'
 import { useSession } from 'next-auth/react'
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
-import { login, LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
+import { login, LoginState, selectLoginStatus, selectPreviousUrl } from '@/lib/store/auth-slice'
 
 export default function Page() {
 	const router = useRouter()
@@ -19,6 +19,8 @@ export default function Page() {
 
 	const [email, setEmail] = useState('')
 	const [isSuccessful, setIsSuccessful] = useState(false)
+
+	const previousUrl: LoginState['previousUrl'] = useAppSelector(selectPreviousUrl)
 
 	// const [state, formAction] = useActionState<LoginActionState, FormData>(login, {
 	// 	status: 'idle',
@@ -41,7 +43,7 @@ export default function Page() {
 		} else if (status === 'success') {
 			setIsSuccessful(true)
 			// session.update()
-			router.push('/')
+			if (previousUrl) router.push(previousUrl)
 		}
 	}, [status, router])
 

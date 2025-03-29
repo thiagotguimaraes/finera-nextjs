@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { CommentEditor } from './post-comment-input'
 import { api, useAddCommentMutation } from '@/lib/services/comments'
 import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
-import { LoginState, selectLoginStatus } from '@/lib/store/auth-slice'
+import { LoginState, selectLoginStatus, setPreviousUrl } from '@/lib/store/auth-slice'
 
 const CreateComment = ({ post }: { post: Post }) => {
 	// const session = useSession()
@@ -29,6 +29,7 @@ const CreateComment = ({ post }: { post: Post }) => {
 	const showInput = () => {
 		if (!authenticated) {
 			router.push('/login')
+			dispatch(setPreviousUrl({ previousUrl: new URL(window.location.href).pathname }))
 		} else {
 			setCanComment(authenticated)
 			setIsEditing(true)
