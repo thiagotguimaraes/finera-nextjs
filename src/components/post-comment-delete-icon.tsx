@@ -28,7 +28,7 @@ const CommentDeleteIcon = ({ post, comment }: { comment: CommentType; post: Post
 
 	return (
 		<>
-			{true ? (
+			{isDeleting ? (
 				<Button variant='ghost' disabled>
 					<Spinner size='sm' className='bg-black dark:bg-white' />
 				</Button>

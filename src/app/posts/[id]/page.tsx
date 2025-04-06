@@ -1,8 +1,9 @@
-import { notFound } from 'next/navigation'
-import { API_URL, getPost, Post as PostType } from '@/lib/posts'
 import Post from '@/components/post'
 import CreateComment from '@/components/post-comment-create'
 import CommentsList from '@/components/post-comment-list'
+import { getImageFilename } from '@/lib/services/getImageFilename'
+import { API_URL, getPost, Post as PostType } from '@/lib/posts'
+import { notFound } from 'next/navigation'
 
 // Return a list of `params` to populate the [id] dynamic segment
 export async function generateStaticParams() {
@@ -14,8 +15,13 @@ export async function generateStaticParams() {
 }
 
 export default async function PostDetailPage({ params }: { params: Promise<{ id: string }> }) {
+	const posts = await fetch(`${API_URL}/posts`).then((res) => res.json())
+
 	const { id } = await params
-	const post = await getPost(id)
+	let post = await getPost(id)
+
+	const postIndex = posts.findIndex((p: PostType) => p.id === post.id)
+	post = { ...post, imageSrc: getImageFilename(postIndex) }
 
 	if (!post || !Object.keys(post).length) {
 		notFound()

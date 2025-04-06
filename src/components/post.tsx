@@ -1,6 +1,9 @@
 import { Post as PostType } from '@/lib/posts'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
+import Image from 'next/image'
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || ''
 
 export default function Post({ post, children }: { post: PostType; children?: React.ReactNode }) {
 	return (
@@ -13,8 +16,16 @@ export default function Post({ post, children }: { post: PostType; children?: Re
 					<span className='font-semibold'>{`User ${post.userId}`}</span>
 				</div>
 				<div className='block'>
-					<h2 className='text-lg font-bold mb-2 hover:underline'>{post.title}</h2>
-					<p className='text-gray-600'>{post.body}</p>
+					<div className='relative w-full rounded-lg overflow-hidden' style={{ paddingBottom: '100%' }}>
+						<Image
+							src={`${BASE_PATH}/posts-images/${post.imageSrc}`}
+							alt=''
+							layout='fill'
+							objectFit='cover'
+						/>
+					</div>
+					<h2 className='text-lg font-bold mb-2 mt-4 hover:underline'>{post.title.toUpperCase()}</h2>
+					<p className='text-gray-600'>{post.body.charAt(0).toUpperCase() + post.body.slice(1)}</p>
 				</div>
 				{children}
 			</CardContent>
