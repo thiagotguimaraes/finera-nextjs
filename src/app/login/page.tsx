@@ -1,30 +1,23 @@
 'use client'
 
+import { toast } from '@/components/toast'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useActionState, useEffect, useState } from 'react'
-import { toast } from '@/components/toast'
+import { useEffect, useState } from 'react'
 
 import { AuthForm } from '@/components/auth-form'
 import { SubmitButton } from '@/components/submit-button'
 
-// import { login, type LoginActionState } from '../auth/actions'
-import { useSession } from 'next-auth/react'
-import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 import { login, LoginState, selectLoginStatus, selectPreviousUrl } from '@/lib/store/auth-slice'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 
 export default function Page() {
 	const router = useRouter()
-	// const session = useSession()
 
 	const [email, setEmail] = useState('')
 	const [isSuccessful, setIsSuccessful] = useState(false)
 
 	const previousUrl: LoginState['previousUrl'] = useAppSelector(selectPreviousUrl)
-
-	// const [state, formAction] = useActionState<LoginActionState, FormData>(login, {
-	// 	status: 'idle',
-	// })
 
 	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
 	const dispatch = useAppDispatch()
@@ -42,14 +35,21 @@ export default function Page() {
 			})
 		} else if (status === 'success') {
 			setIsSuccessful(true)
-			// session.update()
-			if (previousUrl) router.push(previousUrl)
+			toast({
+				type: 'success',
+				description: 'Logged in successfully!',
+			})
+
+			if (previousUrl && new URL(previousUrl, window.location.origin).origin === window.location.origin) {
+				router.push(previousUrl)
+			} else {
+				router.push('/')
+			}
 		}
-	}, [status, router])
+	}, [status, router, previousUrl])
 
 	const handleSubmit = (formData: FormData) => {
 		setEmail(formData.get('email') as string)
-		// formAction(formData)
 		dispatch(login())
 	}
 

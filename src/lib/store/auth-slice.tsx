@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from './store'
 
 export interface LoginState {
-	status: 'success' | 'failed' | 'invalid_data' | undefined
+	status: 'success' | 'failed' | 'invalid_data' | 'user_exists' | undefined
 	previousUrl: string | undefined
 }
 

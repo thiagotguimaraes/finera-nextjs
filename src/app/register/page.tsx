@@ -2,58 +2,54 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useActionState, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AuthForm } from '@/components/auth-form'
 import { SubmitButton } from '@/components/submit-button'
 
-// import { register, type RegisterActionState } from '../auth/actions'
 import { toast } from '@/components/toast'
-import { useSession } from 'next-auth/react'
+import { login, LoginState, selectLoginStatus, selectPreviousUrl } from '@/lib/store/auth-slice'
+import { useAppDispatch, useAppSelector } from '@/lib/store/hooks'
 
 export default function Page() {
 	const router = useRouter()
-	// const session = useSession()
 
 	const [email, setEmail] = useState('')
 	const [isSuccessful, setIsSuccessful] = useState(false)
 
-	// const [state, formAction] = useActionState<RegisterActionState, FormData>(register, {
-	// 	status: 'idle',
-	// })
+	const previousUrl: LoginState['previousUrl'] = useAppSelector(selectPreviousUrl)
 
-	const [state, setLoginState] = useState<RegisterActionState>({
-		status: 'idle',
-	})
+	const status: LoginState['status'] = useAppSelector(selectLoginStatus)
+	const dispatch = useAppDispatch()
 
 	useEffect(() => {
-		if (state.status === 'user_exists') {
+		if (status === 'user_exists') {
 			toast({ type: 'error', description: 'Account already exists!' })
-		} else if (state.status === 'failed') {
+		} else if (status === 'failed') {
 			toast({ type: 'error', description: 'Failed to create account!' })
-		} else if (state.status === 'invalid_data') {
+		} else if (status === 'invalid_data') {
 			toast({
 				type: 'error',
 				description: 'Failed validating your submission!',
 			})
-		} else if (state.status === 'success') {
+		} else if (status === 'success') {
 			toast({
 				type: 'success',
 				description: 'Account created successfully!',
 			})
 
 			setIsSuccessful(true)
-			router.push('/')
-			// session.update()
+			if (previousUrl && new URL(previousUrl, window.location.origin).origin === window.location.origin) {
+				router.push(previousUrl)
+			} else {
+				router.push('/')
+			}
 		}
-	}, [state])
+	}, [status, router, previousUrl])
 
 	const handleSubmit = (formData: FormData) => {
 		setEmail(formData.get('email') as string)
-		// formAction(formData)
-		setLoginState({
-			status: 'success',
-		})
+		dispatch(login())
 	}
 
 	return (
