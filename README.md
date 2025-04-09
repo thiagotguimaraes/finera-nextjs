@@ -1,43 +1,48 @@
 # Blog Posts: Next.js + Shadcn + Tailwind
 
+A demo project showcasing a blog application built with Next.js, Shadcn, and Tailwind CSS. The application includes features like server-side rendering, static generation, authentication, and responsive design.
+
 ## Demo
-https://thiagotguimaraes.github.io/finera-nextjs/
+
+Access the live demo here: [https://thiagotguimaraes.github.io/finera-nextjs/](https://thiagotguimaraes.github.io/finera-nextjs/)
 
 ## Features
 
--   FeedPage: `/posts`
+-   **FeedPage**: `/posts`
 
-    -   Renders FeedPage on server side
-    -   By clicking on each Post it redirects to PostPage
+    -   Renders FeedPage on the server side.
+    -   Clicking on a post redirects to its respective PostPage.
 
--   PostPage: `/posts/{id}`
+-   **PostPage**: `/posts/{id}`
 
-    -   Each PostPage is rendered statically on server side
-    -   The PostPage displays Pont details and a list with the Post's Comments
-    -   New comments can be added (if authenticated)
-    -   Comments can be edited and deleted (if authenticated)
-        -   Because the https://jsonplaceholder.typicode.com/ service doesn't really create, edit or delete the posts, the redux store takes care of updating the cached post's comments optimistically. (If the user navigates without reloading the page, the changes are kept, however if the page is reloaded, the original comments are restored as expected.)
+    -   Each PostPage is statically rendered on the server side.
+    -   Displays post details and a list of comments.
+    -   Allows adding new comments (if authenticated).
+    -   Comments can be edited and deleted (if authenticated).
+        -   Note: The `https://jsonplaceholder.typicode.com/` service does not persist changes (create, edit, or delete). The Redux store handles optimistic updates to cached comments. Changes persist during navigation but reset upon page reload.
 
--   UsersPage: `/users`
+-   **UsersPage**: `/users`
 
-    -   This page is just a simple page listing the users
+    -   A simple page listing all users.
 
--   Login Page and Register Page `/login` and `/register`
+-   **Login Page and Register Page**: `/login` and `/register`
 
-    -   Use nextAuth for authentication
-    -   Any "email" and "password" will be accepted for login (fake auth, no database check in this demo)
+    -   Uses NextAuth for authentication.
+    -   Accepts any "email" and "password" for login (fake authentication, no database validation in this demo).
 
--   Layout
-    -   The whole website is responsive and works also with small screens
-    -   Tailwind and Shadcn were used for components and styling
+-   **Layout**
+    -   Fully responsive design, optimized for small screens.
+    -   Built with Tailwind CSS and Shadcn for components and styling.
 
 ## Getting Started
 
-To run the development server:
+To run the development server locally:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Ps: The deploy on Github Pages only accepts static files, so the deployment was done without nextAuth authentication.
+## Notes
+
+-   The deployment on GitHub Pages only supports static files. Therefore, the deployment excludes NextAuth authentication.
