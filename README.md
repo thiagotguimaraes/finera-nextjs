@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog Posts: Next.js + Shadcn + Tailwind
+
+A demo project showcasing a blog application built with Next.js, Shadcn, and Tailwind CSS. The application includes features like server-side rendering, static generation, authentication, and responsive design.
+
+## Demo
+
+Access the live demo here: [https://thiagotguimaraes.github.io/finera-nextjs/](https://thiagotguimaraes.github.io/finera-nextjs/)
+
+## Features
+
+-   **FeedPage**: `/posts`
+
+    -   Renders FeedPage on the server side.
+    -   Clicking on a post redirects to its respective PostPage.
+
+-   **PostPage**: `/posts/{id}`
+
+    -   Each PostPage is statically rendered on the server side.
+    -   Displays post details and a list of comments.
+    -   Allows adding new comments (if authenticated).
+    -   Comments can be edited and deleted (if authenticated).
+        -   Note: The `https://jsonplaceholder.typicode.com/` service does not persist changes (create, edit, or delete). The Redux store handles optimistic updates to cached comments. Changes persist during navigation but reset upon page reload.
+
+-   **UsersPage**: `/users`
+
+    -   A simple page listing all users.
+
+-   **Login Page and Register Page**: `/login` and `/register`
+
+    -   Uses NextAuth for authentication.
+    -   Accepts any "email" and "password" for login (fake authentication, no database validation in this demo).
+
+-   **Layout**
+    -   Fully responsive design, optimized for small screens.
+    -   Built with Tailwind CSS and Shadcn for components and styling.
 
 ## Getting Started
 
-First, run the development server:
+To run the development server locally:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Notes
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   The deployment on GitHub Pages only supports static files. Therefore, the deployment excludes NextAuth authentication.
