@@ -22,7 +22,7 @@ export const authSlice = createSlice({
 			state.status = undefined
 		},
 		setPreviousUrl: (state, action: PayloadAction<{ previousUrl: LoginState['previousUrl'] }>) => {
-			state.previousUrl = action.payload.previousUrl?.split('/finera-nextjs')[1]
+			state.previousUrl = action.payload.previousUrl?.split('/nextjs-blog')[1]
 		},
 	},
 })
