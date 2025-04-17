@@ -4,7 +4,7 @@ A demo project showcasing a blog application built with Next.js, Shadcn, and Tai
 
 ## Demo
 
-Access the live demo here: [https://thiagotguimaraes.github.io/finera-nextjs/](https://thiagotguimaraes.github.io/finera-nextjs/)
+Access the live demo here: [https://thiagotguimaraes.github.io/nextjs-blog/](https://thiagotguimaraes.github.io/nextjs-blog/)
 
 ## Features
 
